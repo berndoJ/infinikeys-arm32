@@ -27,12 +27,17 @@
 /*
  * Pointer to the pressed keys table.
  */
-static uint8_t* _p_pressedkeys_table;
+static uint8_t* _pressedkeys_table;
 
 /*
  * Size of the pressed keys table.
  */
 static uint16_t _pressedkeys_table_size;
+
+/*
+ * Callback function pointer that gets called after completion of a keyboard poll.
+ */
+static void (*_poll_callback_func)(void);
 
 /* --------------------------------------------------------------
  * FUNCTION DEFINITIONS
@@ -43,7 +48,7 @@ void _IK_ACQ_Poll(void)
 	// Clear the pressed keys table.
 	for (uint16_t i = 0; i < _pressedkeys_table_size; i++)
 	{
-		_p_pressedkeys_table[i] = 0x00;
+		_pressedkeys_table[i] = 0x00;
 	}
 	// Index for writing to the table.
 	uint16_t pressedkeys_index = 0;
@@ -68,7 +73,7 @@ void _IK_ACQ_Poll(void)
 			{
 				if (pressedkeys_index < _pressedkeys_table_size)
 				{
-					_p_pressedkeys_table[pressedkeys_index] = IK_MATRIX_ID_FROM_LINES(probe_line_index, sense_line_index);
+					_pressedkeys_table[pressedkeys_index] = IK_MATRIX_ID_FROM_LINES(probe_line_index, sense_line_index);
 					pressedkeys_index++;
 				}
 				//else
@@ -78,10 +83,14 @@ void _IK_ACQ_Poll(void)
 			}
 		}
 	}
+
+	// Call the callback function after completion of a poll.
+	_poll_callback_func();
 }
 
-void _IK_ACQ_Config(uint8_t* p_pressedkeys_table, uint16_t pressedkeys_table_size)
+void _IK_ACQ_Config(uint8_t* p_pressedkeys_table, uint16_t pressedkeys_table_size, void (*poll_callback_func)(void))
 {
 	_p_pressedkeys_table = p_pressedkeys_table;
 	_pressedkeys_table_size = pressedkeys_table_size;
+	_poll_callback_func = poll_callback_func;
 }
