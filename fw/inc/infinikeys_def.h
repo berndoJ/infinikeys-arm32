@@ -19,6 +19,10 @@
 
 #include "infinikeys_cfg.h"
 
+/* --------------------------------------------------------------
+ * DEFINES
+ * ------------------------------------------------------------*/
+
 #define __INFINIKEYS
 
 #define IK_LOGIC_LEVEL_LOW							0x00
@@ -27,5 +31,24 @@
 #define IK_PHYSICAL_KEY_COUNT						(IK_MATRIX_PROBE_LINE_COUNT * IK_MATRIX_SENSE_LINE_COUNT)
 
 #define IK_MATRIX_ID_FROM_LINES(p,s)				((p * IK_MATRIX_SENSE_LINE_COUNT) + s)
+
+#define IK_KEY_MAP_MODIFIER_TYPE_HID				0x00
+#define IK_KEY_MAP_MODIFIER_TYPE_LAYER				0x01
+
+/* --------------------------------------------------------------
+ * STRUCTS, ENUMS AND TYPEDEFS
+ * ------------------------------------------------------------*/
+
+typedef enum {
+	KEYMAP_MODIFIER,
+	KEYMAP_STATIC,
+	KEYMAP_ACTION
+} IK_KeyMapType_t;
+
+typedef struct {
+	IK_KeyMapType_t Type;
+	uint16_t DataSize;
+	uint8_t* Data;
+} IK_KeyMap_t;
 
 #endif /* INFINIKEYS_DEF_H_ */

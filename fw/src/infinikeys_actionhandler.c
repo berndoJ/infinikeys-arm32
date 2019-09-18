@@ -1,28 +1,23 @@
 /*----------------------------------------------------------------
- * FILENAME :		infinikeys_cfg.h
+ * FILENAME :		infinikeys_actionhandler.c
  * PROJECT :		infinikeys-arm32
  * AUTHOR :			Johannes Berndorfer
- * BREIF :			InfiniKeys Configuration File
+ * BREIF :			Handler for Keyboard Actions.
  * 
  * Copyright (c) 2019 Johannes Berndorfer. All rights reserved.
  * ---------------------------------------------------------------
- * DATE CREATED :	16.09.2019	
+ * DATE CREATED :	18.09.2019	
  * VERSION :		1.0
  * ---------------------------------------------------------------
  * DESCRIPTION :
- * 		Configuration header for the InfiniKeys firmware
- * 		extension.
+ * 		Handles keyboard actions, similar to macros.
  * 
  *--------------------------------------------------------------*/
 
-#ifndef INFINIKEYS_CFG_H_
-#define INFINIKEYS_CFG_H_
 
-#include "infinikeys_hal_template.h"
+#include "infinikeys_actionhandler.h"
 
-#define IK_MATRIX_PROBE_LINE_COUNT		10
-#define IK_MATRIX_SENSE_LINE_COUNT		10
+void IK_ACT_ExecuteRaw(uint8_t* raw_data, uint16_t raw_data_size)
+{
 
-#define IK_KEY_ROLLOVER					5
-
-#endif /* INFINIKEYS_CFG_H_ */
+}

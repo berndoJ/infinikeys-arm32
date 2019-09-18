@@ -18,7 +18,6 @@
 
 #include "infinikeys_acq.h"
 
-#include "infinikeys_hal.h"
 
 /* --------------------------------------------------------------
  * STATIC VARIABLES
@@ -90,7 +89,7 @@ void _IK_ACQ_Poll(void)
 
 void _IK_ACQ_Config(uint8_t* p_pressedkeys_table, uint16_t pressedkeys_table_size, void (*poll_callback_func)(void))
 {
-	_p_pressedkeys_table = p_pressedkeys_table;
+	_pressedkeys_table = p_pressedkeys_table;
 	_pressedkeys_table_size = pressedkeys_table_size;
 	_poll_callback_func = poll_callback_func;
 }

@@ -21,6 +21,18 @@
 
 #include "infinikeys_common.h"
 
+/* --------------------------------------------------------------
+ * FUNCTION DECLARATIONS
+ * ------------------------------------------------------------*/
+
+/*
+ * Description
+ * -
+ *
+ * Parameters
+ * - uint8_t* pressedkeys_table: Pointer to the pressed keys table. (Array containing all pressed keycodes)
+ * - uint16_t pressedkeys_table_size: Size of the pressed keys table.
+ */
 void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_table_size);
 
 #endif /* INFINIKEYS_PARSER_H_ */

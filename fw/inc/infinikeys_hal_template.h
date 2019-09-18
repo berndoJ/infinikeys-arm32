@@ -14,15 +14,12 @@
  * 
  *--------------------------------------------------------------*/
 
-#ifndef INFINIKEYS_HAL_H_
-#define INFINIKEYS_HAL_H_
+#ifndef INFINIKEYS_HAL_TEMPLATE_H_
+#define INFINIKEYS_HAL_TEMPLATE_H_
 
 #include "infinikeys_common.h"
 
 void IK_HAL_SetMatrixProbeLine(uint8_t probe_line, uint8_t state);
 uint8_t IK_HAL_ReadMatrixSenseLine(uint8_t sense_line);
 
-void IK_HAL_SetMatrixProbeLine(uint8_t probe_line, uint8_t state) {}
-uint8_t IK_HAL_ReadMatrixSenseLine(uint8_t sense_line) { return 0; }
-
-#endif /* INFINIKEYS_HAL_H_ */
+#endif /* INFINIKEYS_HAL_TEMPLATE_H_ */

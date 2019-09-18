@@ -1,28 +1,26 @@
 /*----------------------------------------------------------------
- * FILENAME :		infinikeys_cfg.h
+ * FILENAME :		infinikeys_usbif.c
  * PROJECT :		infinikeys-arm32
  * AUTHOR :			Johannes Berndorfer
- * BREIF :			InfiniKeys Configuration File
+ * BREIF :			USB Interface Module
  * 
  * Copyright (c) 2019 Johannes Berndorfer. All rights reserved.
  * ---------------------------------------------------------------
- * DATE CREATED :	16.09.2019	
+ * DATE CREATED :	18.09.2019	
  * VERSION :		1.0
  * ---------------------------------------------------------------
  * DESCRIPTION :
- * 		Configuration header for the InfiniKeys firmware
- * 		extension.
+ * 		This module connects InfiniKeys to the USB bus.
  * 
  *--------------------------------------------------------------*/
 
-#ifndef INFINIKEYS_CFG_H_
-#define INFINIKEYS_CFG_H_
 
-#include "infinikeys_hal_template.h"
+#include "infinikeys_usbif.h"
 
-#define IK_MATRIX_PROBE_LINE_COUNT		10
-#define IK_MATRIX_SENSE_LINE_COUNT		10
+uint8_t IK_HID_PressedKeys_Buffer[IK_KEY_ROLLOVER];
+uint8_t IK_HID_ModifierKeys;
 
-#define IK_KEY_ROLLOVER					5
+void IK_USBIF_SendHIDReport(void)
+{
 
-#endif /* INFINIKEYS_CFG_H_ */
+}
