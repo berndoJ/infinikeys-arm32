@@ -19,6 +19,10 @@
 
 #include "infinikeys_common.h"
 
+/* --------------------------------------------------------------
+ * DEFINITIONS
+ * ------------------------------------------------------------*/
+
 //#define IK_HID_MODIFIER_BIT_L_CTRL			(1 << 0)
 //#define IK_HID_MODIFIER_BIT_L_SHIFT			(1 << 1)
 //#define IK_HID_MODIFIER_BIT_L_ALT			(1 << 2)
@@ -28,9 +32,33 @@
 //#define IK_HID_MODIFIER_BIT_R_ALT			(1 << 6)
 //#define IK_HID_MODIFIER_BIT_R_GUI			(1 << 7)
 
+/* --------------------------------------------------------------
+ * VARIABLE DECLARATIONS
+ * ------------------------------------------------------------*/
+
+/*
+ * Buffer array for all pressed HID keys on the keyboard. It is used
+ * when a new HID report gets constructed.
+ */
 extern uint8_t IK_HID_PressedKeys_Buffer[IK_KEY_ROLLOVER];
+
+/*
+ * Buffer for the modifier key byte. This byte gets sent to the USB
+ * host when a report gets sent, indicating which modifier keys
+ * on the keyboard are pressed.
+ */
 extern uint8_t IK_HID_ModifierKeys;
 
+/* --------------------------------------------------------------
+ * FUNCTION DECLARATIONS
+ * ------------------------------------------------------------*/
+
+/*
+ * Description
+ * This function triggers a new HID report. The report gets
+ * constructed of the currently known keyboard information and
+ * gets sent to the USB host.
+ */
 void IK_USBIF_SendHIDReport(void);
 
 #endif /* INFINIKEYS_USBIF_H_ */

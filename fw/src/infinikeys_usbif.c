@@ -17,8 +17,16 @@
 
 #include "infinikeys_usbif.h"
 
+/* --------------------------------------------------------------
+ * VARIABLE DEFINITIONS
+ * ------------------------------------------------------------*/
+
 uint8_t IK_HID_PressedKeys_Buffer[IK_KEY_ROLLOVER];
 uint8_t IK_HID_ModifierKeys;
+
+/*
+ * FUNCTION DEFINITIONS
+ */
 
 void IK_USBIF_SendHIDReport(void)
 {

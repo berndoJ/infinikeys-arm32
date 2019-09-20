@@ -21,11 +21,7 @@
 #include <string.h>
 #include "infinikeys_usbif.h"
 #include "infinikeys_actionhandler.h"
-
-// TODO : Implement following functions and global variables in other modules of the extension.
-static IK_KeyMap_t* IK_CFG_GetKeyMap(uint16_t matrix_id) { return 0; }
-static uint8_t IK_CFG_GetFallbackKeyLayer(void) { return 0; }
-static uint8_t IK_CFG_CurrentKeyLayer = 0;
+#include "infinikeys_kbcfg.h"
 
 /* --------------------------------------------------------------
  * FUNCTION DEFINITIONS
