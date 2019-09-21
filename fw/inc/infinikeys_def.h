@@ -30,7 +30,6 @@
 #endif
 
 #if defined(IK_PLATFORM_STM32_CUBE)
-#	include "infinikeys_cfg_stm32cube.h"
 #else
 #	error No Infinikeys platform specified.
 #endif
