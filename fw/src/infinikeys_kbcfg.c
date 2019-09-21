@@ -45,8 +45,8 @@ IK_KeyMap_t* IK_CFG_GetKeyMap(uint16_t matrix_id)
 	// --- START OF TEST CODE ---
 	// This test code always returns a static key binding to the keyboard key "A".
 	// So no matter which matrix id is given - the key is mapped to "A".
-	IK_KeyMap_t tst_map;
-	uint8_t tst_map_data[1];
+	static IK_KeyMap_t tst_map;
+	static uint8_t tst_map_data[1];
 
 	tst_map_data[0] = 0x04; // "A" key on the keyboard.
 
