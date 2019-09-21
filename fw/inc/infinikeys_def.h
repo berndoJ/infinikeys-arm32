@@ -20,7 +20,7 @@
 #include "infinikeys_cfg.h"
 
 /* --------------------------------------------------------------
- * DEFINES
+ * DEFINITIONS
  * ------------------------------------------------------------*/
 
 #define __INFINIKEYS
@@ -39,12 +39,28 @@
  * STRUCTS, ENUMS AND TYPEDEFS
  * ------------------------------------------------------------*/
 
+/*
+ * Description
+ * This enum type is used to represent a type of key map.
+ *
+ * Key map types:
+ * - KEYMAP_MODIFIER: A key map to a modifier key.
+ * - KEYMAP_STATIC: A static key map - just a normal key - such as the "A" key.
+ * - KEYMAP_ACTION: A key map to an action. (Only used for macro keys)
+ */
 typedef enum {
 	KEYMAP_MODIFIER,
 	KEYMAP_STATIC,
 	KEYMAP_ACTION
 } IK_KeyMapType_t;
 
+/*
+ * Description
+ * Struct which represents a key map. Through a struct of this
+ * type a key map can be represented - for example mapping
+ * the physical key "S" to the HID key "A" (through a static
+ * key mapping in this case).
+ */
 typedef struct {
 	IK_KeyMapType_t Type;
 	uint16_t DataSize;
