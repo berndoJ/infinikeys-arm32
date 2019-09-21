@@ -20,7 +20,7 @@
 #include "infinikeys_cfg.h"
 
 #if defined(IK_PLATFORM_STM32_CUBE)
-#elif defined(INFINIKEYS_DEF_H_)
+#elif 1
 #else
 #error No Infinikeys platform specified.
 #endif
@@ -30,9 +30,6 @@
  * ------------------------------------------------------------*/
 
 #define __INFINIKEYS
-
-#define IK_LOGIC_LEVEL_LOW							0x00
-#define IK_LOGIC_LEVEL_HIGH							0x01
 
 #define IK_PHYSICAL_KEY_COUNT						(IK_MATRIX_PROBE_LINE_COUNT * IK_MATRIX_SENSE_LINE_COUNT)
 
@@ -59,6 +56,19 @@ typedef enum {
 	KEYMAP_STATIC,
 	KEYMAP_ACTION
 } IK_KeyMapType_t;
+
+/*
+ * Description
+ * Represents a logic level.
+ *
+ * IK Logic Levels:
+ * - IK_LOGIC_LEVEL_LOW: Represents a 0 or low logic level.
+ * - IK_LOGIC_LEVEL_HIGH: Represents a 1 or high logic level.
+ */
+typedef enum {
+	IK_LOGIC_LEVEL_LOW = 0,
+	IK_LOGIC_LEVEL_HIGH = 1
+} IK_LogicLevel_t;
 
 /*
  * Description
