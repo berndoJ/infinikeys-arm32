@@ -20,11 +20,12 @@
 
 // Define the target platform this extension will run on:
 //#define IK_PLATFORM_STM32_CUBE
+//#define IK_PLATFORM_STM32_CUBE_DEVICE_F1XX
 
 #include "infinikeys_hal_template.h"
 
 #if defined(IK_PLATFORM_STM32_CUBE)
-#include "infinikeys_hal_stm32cube.h"
+#include "infinikeys_stm32cube/infinikeys_hal_stm32cube.h"
 #endif
 
 #define IK_MATRIX_PROBE_LINE_COUNT		10

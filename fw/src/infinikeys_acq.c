@@ -18,6 +18,7 @@
 
 #include "infinikeys_acq.h"
 
+#include "infinikeys_hal.h"
 
 /* --------------------------------------------------------------
  * STATIC VARIABLES
