@@ -18,7 +18,7 @@
 #define INFINIKEYS_HAL_H_
 
 #if defined(IK_PLATFORM_STM32_CUBE)
-#include "infinikeys_stm32cube/infinikeys_hal_stm32_cube.h"
+#	include "infinikeys_stm32cube/infinikeys_hal_stm32_cube.h"
 #endif
 
 #endif /* INFINIKEYS_HAL_H_ */

@@ -17,19 +17,27 @@
 #ifndef INFINIKEYS_DEF_H_
 #define INFINIKEYS_DEF_H_
 
-#include "infinikeys_cfg.h"
+// DEFINE ONLY WHEN DEBUG CONFIG SHOULD BE USED.
+//#define INFINIKEYS_USE_USER_CONFIG
+
+#if !defined(INFINIKEYS_USE_USER_CONFIG)
+#	include "infinikeys_cfg.h"
+#else
+#	define IK_DEBUG_CONFIG
+#	define IK_MATRIX_PROBE_LINE_COUNT		10
+#	define IK_MATRIX_SENSE_LINE_COUNT		10
+#	define IK_KEY_ROLLOVER					5
+#endif
 
 #if defined(IK_PLATFORM_STM32_CUBE)
-#elif 1
+#	include "infinikeys_cfg_stm32cube.h"
 #else
-#error No Infinikeys platform specified.
+#	error No Infinikeys platform specified.
 #endif
 
 /* --------------------------------------------------------------
  * DEFINITIONS
  * ------------------------------------------------------------*/
-
-#define __INFINIKEYS
 
 #define IK_PHYSICAL_KEY_COUNT						(IK_MATRIX_PROBE_LINE_COUNT * IK_MATRIX_SENSE_LINE_COUNT)
 
