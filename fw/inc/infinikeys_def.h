@@ -19,6 +19,12 @@
 
 #include "infinikeys_cfg.h"
 
+#if defined(IK_PLATFORM_STM32_CUBE)
+#elif defined(INFINIKEYS_DEF_H_)
+#else
+#error No Infinikeys platform specified.
+#endif
+
 /* --------------------------------------------------------------
  * DEFINITIONS
  * ------------------------------------------------------------*/

@@ -19,6 +19,10 @@
 
 #include "infinikeys_common.h"
 
+#if defined(IK_PLATFORM_STM32_CUBE)
+#include "infinikeys_usbif_stm32cube.h"
+#endif
+
 /* --------------------------------------------------------------
  * DEFINITIONS
  * ------------------------------------------------------------*/
@@ -48,6 +52,12 @@ extern uint8_t IK_HID_PressedKeys_Buffer[IK_KEY_ROLLOVER];
  * on the keyboard are pressed.
  */
 extern uint8_t IK_HID_ModifierKeys;
+
+/*
+ * Buffer for the OEM reserved byte that gets sent over to the USB
+ * host whenever a HID keyboard report is issued.
+ */
+extern uint8_t IK_HID_OEMReservedReportByte;
 
 /* --------------------------------------------------------------
  * FUNCTION DECLARATIONS

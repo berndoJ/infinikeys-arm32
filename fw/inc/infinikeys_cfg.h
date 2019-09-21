@@ -18,7 +18,14 @@
 #ifndef INFINIKEYS_CFG_H_
 #define INFINIKEYS_CFG_H_
 
+// Define the target platform this extension will run on:
+//#define IK_PLATFORM_STM32_CUBE
+
 #include "infinikeys_hal_template.h"
+
+#if defined(IK_PLATFORM_STM32_CUBE)
+#include "infinikeys_hal_stm32cube.h"
+#endif
 
 #define IK_MATRIX_PROBE_LINE_COUNT		10
 #define IK_MATRIX_SENSE_LINE_COUNT		10
