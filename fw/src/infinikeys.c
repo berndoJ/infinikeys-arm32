@@ -18,6 +18,7 @@
 
 #include "infinikeys_acq.h"
 #include "infinikeys_parser.h"
+#include "infinikeys_kbcfg.h"
 
 /* --------------------------------------------------------------
  * PRIVATE VARIABLE DEFINITIONS
@@ -28,6 +29,19 @@ static uint8_t pressed_keys_buffer[IK_PHYSICAL_KEY_COUNT];
 /* --------------------------------------------------------------
  * FUNCTION DEFINITIONS
  * ------------------------------------------------------------*/
+
+uint8_t IK_Init(void)
+{
+	if (IK_CFG_Init() != 0)
+		return 1;
+
+	return 0;
+}
+
+uint8_t IK_DeInit(void)
+{
+	return 0;
+}
 
 void IK_KeyboardPollCyleTick(void)
 {

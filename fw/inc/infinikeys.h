@@ -24,6 +24,9 @@
  * FUNCTION DECLARATIONS
  * ------------------------------------------------------------*/
 
+uint8_t IK_Init(void);
+uint8_t IK_DeInit(void);
+
 void IK_KeyboardPollCyleTick(void);
 
 #endif /* INFINIKEYS_H_ */

@@ -26,11 +26,21 @@
  * VARIABLE DECLARATIONS
  * ------------------------------------------------------------*/
 
+/*
+ * Pointer to the keyboar configuration key mapping table.
+ * The table has following array structure:
+ * xx[key_layer][matrix_id]
+ */
+extern IK_KeyMap_t** IK_CFG_KeyMapTable;
+
 extern uint8_t IK_CFG_CurrentKeyLayer;
 
 /* --------------------------------------------------------------
  * FUNCTION DECLARATIONS
  * ------------------------------------------------------------*/
+
+uint8_t IK_CFG_Init(void);
+void IK_CFG_DeInit(void);
 
 /*
  * Description:
@@ -38,6 +48,10 @@ extern uint8_t IK_CFG_CurrentKeyLayer;
  * set by the configuration.
  */
 uint8_t IK_CFG_GetFallbackKeyLayer(void);
+
+void IK_CFG_SetFallbackKeyLayer(uint8_t new_fb_key_layer);
+
+uint8_t IK_CFG_GetKeyLayerCount(void);
 
 /*
  * Description

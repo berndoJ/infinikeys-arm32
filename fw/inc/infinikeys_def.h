@@ -39,6 +39,7 @@
  * ------------------------------------------------------------*/
 
 #define IK_PHYSICAL_KEY_COUNT						(IK_MATRIX_PROBE_LINE_COUNT * IK_MATRIX_SENSE_LINE_COUNT)
+#define IK_KEY_MAP_TABLE_MATRIX_SIZE				(IK_PHYSICAL_KEY_COUNT + 1)
 
 #define IK_MATRIX_ID_FROM_LINES(p,s)				((p * IK_MATRIX_SENSE_LINE_COUNT) + s + 1)
 
