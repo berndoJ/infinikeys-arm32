@@ -15,9 +15,9 @@
  * 
  *--------------------------------------------------------------*/
 
-#if defined(IK_PLATFORM_STM32_CUBE)
-
 #include "infinikeys_stm32cube/infinikeys_hal_stm32cube.h"
+
+#if defined(IK_PLATFORM_STM32_CUBE)
 
 /* --------------------------------------------------------------
  * DEFINITIONS

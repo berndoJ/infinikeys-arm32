@@ -25,20 +25,14 @@
  * FUNCTION DECLARATIONS
  * ------------------------------------------------------------*/
 
-/* Description
- * Configures the InfiniKeys key state acquisition module.
- *
- * Parameters
- * - uint8_t* p_pressedkeys_table: Pointer to the pressed keys table the acquisition module should use.
- * - uint16_t pressedkeys_table_size: Size of the pressed keys table.
- * - void (*poll_callback_func)(void): Poll finished callback function pointer.
- */
-void _IK_ACQ_Config(uint8_t* p_pressedkeys_table, uint16_t pressedkeys_table_size, void (*poll_callback_func)(void));
-
 /*
  * Description
  * Initiates a new keyboard matrix state poll.
+ *
+ * Parameters
+ * - uint8_t* pressed_keys_table: Pointer to the pressed keys table the poll function should store the results in.
+ * - uint16_t pressed_keys_table_size: Size of the pressed keys table.
  */
-void _IK_ACQ_Poll(void);
+void _IK_ACQ_Poll(uint8_t* pressed_keys_table, uint16_t pressed_keys_table_size);
 
 #endif /* INFINIKEYS_ACQ_H_ */

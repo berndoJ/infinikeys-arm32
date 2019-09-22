@@ -20,10 +20,10 @@
 // Include the project's common inclusion header file.
 #include "infinikeys_common.h"
 
-#include "infinikeys_acq.h"
-
 /* --------------------------------------------------------------
- * EXTERN VARIABLE DEFINITIONS
+ * FUNCTION DECLARATIONS
  * ------------------------------------------------------------*/
+
+void IK_KeyboardPollCyleTick(void);
 
 #endif /* INFINIKEYS_H_ */

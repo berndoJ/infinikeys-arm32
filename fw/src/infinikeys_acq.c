@@ -21,34 +21,15 @@
 #include "infinikeys_hal.h"
 
 /* --------------------------------------------------------------
- * STATIC VARIABLES
- * ------------------------------------------------------------*/
-
-/*
- * Pointer to the pressed keys table.
- */
-static uint8_t* _pressedkeys_table;
-
-/*
- * Size of the pressed keys table.
- */
-static uint16_t _pressedkeys_table_size;
-
-/*
- * Callback function pointer that gets called after completion of a keyboard poll.
- */
-static void (*_poll_callback_func)(void);
-
-/* --------------------------------------------------------------
  * FUNCTION DEFINITIONS
  * ------------------------------------------------------------*/
 
-void _IK_ACQ_Poll(void)
+void _IK_ACQ_Poll(uint8_t* pressed_keys_table, uint16_t pressed_keys_table_size)
 {
 	// Clear the pressed keys table.
-	for (uint16_t i = 0; i < _pressedkeys_table_size; i++)
+	for (uint16_t i = 0; i < pressed_keys_table_size; i++)
 	{
-		_pressedkeys_table[i] = 0x00;
+		pressed_keys_table[i] = 0x00;
 	}
 	// Index for writing to the table.
 	uint16_t pressedkeys_index = 0;
@@ -71,9 +52,9 @@ void _IK_ACQ_Poll(void)
 			// Check if the key is pressed.
 			if (IK_HAL_ReadMatrixSenseLine(sense_line_index) == IK_LOGIC_LEVEL_HIGH)
 			{
-				if (pressedkeys_index < _pressedkeys_table_size)
+				if (pressedkeys_index < pressed_keys_table_size)
 				{
-					_pressedkeys_table[pressedkeys_index] = IK_MATRIX_ID_FROM_LINES(probe_line_index, sense_line_index);
+					pressed_keys_table[pressedkeys_index] = IK_MATRIX_ID_FROM_LINES(probe_line_index, sense_line_index);
 					pressedkeys_index++;
 				}
 				//else
@@ -82,15 +63,8 @@ void _IK_ACQ_Poll(void)
 				//}
 			}
 		}
+
+		// Set the probe line level to LOW.
+		IK_HAL_SetMatrixProbeLine(probe_line_index, IK_LOGIC_LEVEL_LOW);
 	}
-
-	// Call the callback function after completion of a poll.
-	_poll_callback_func();
-}
-
-void _IK_ACQ_Config(uint8_t* p_pressedkeys_table, uint16_t pressedkeys_table_size, void (*poll_callback_func)(void))
-{
-	_pressedkeys_table = p_pressedkeys_table;
-	_pressedkeys_table_size = pressedkeys_table_size;
-	_poll_callback_func = poll_callback_func;
 }

@@ -18,9 +18,9 @@
 #define INFINIKEYS_DEF_H_
 
 // DEFINE ONLY WHEN DEBUG CONFIG SHOULD BE USED.
-//#define INFINIKEYS_USE_USER_CONFIG
+//#define INFINIKEYS_USE_DEBUG_CONFIG
 
-#if !defined(INFINIKEYS_USE_USER_CONFIG)
+#if !defined(INFINIKEYS_USE_DEBUG_CONFIG)
 #	include "infinikeys_cfg.h"
 #else
 #	define IK_DEBUG_CONFIG
@@ -31,7 +31,7 @@
 
 #if defined(IK_PLATFORM_STM32_CUBE)
 #else
-#	error No Infinikeys platform specified.
+#	warning No Infinikeys platform specified.
 #endif
 
 /* --------------------------------------------------------------
@@ -40,7 +40,9 @@
 
 #define IK_PHYSICAL_KEY_COUNT						(IK_MATRIX_PROBE_LINE_COUNT * IK_MATRIX_SENSE_LINE_COUNT)
 
-#define IK_MATRIX_ID_FROM_LINES(p,s)				((p * IK_MATRIX_SENSE_LINE_COUNT) + s)
+#define IK_MATRIX_ID_FROM_LINES(p,s)				((p * IK_MATRIX_SENSE_LINE_COUNT) + s + 1)
+
+#define IK_NTH_BIT(n)								(1 << n)
 
 #define IK_KEY_MAP_MODIFIER_TYPE_HID				0x00
 #define IK_KEY_MAP_MODIFIER_TYPE_LAYER				0x01
@@ -57,11 +59,13 @@
  * - KEYMAP_MODIFIER: A key map to a modifier key.
  * - KEYMAP_STATIC: A static key map - just a normal key - such as the "A" key.
  * - KEYMAP_ACTION: A key map to an action. (Only used for macro keys)
+ * - KEYMAP_NONE: The key is disabled.
  */
 typedef enum {
 	KEYMAP_MODIFIER,
 	KEYMAP_STATIC,
-	KEYMAP_ACTION
+	KEYMAP_ACTION,
+	KEYMAP_NONE
 } IK_KeyMapType_t;
 
 /*

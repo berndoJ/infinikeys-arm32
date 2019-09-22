@@ -18,6 +18,7 @@
  *--------------------------------------------------------------*/
 
 #include "infinikeys_kbcfg.h"
+#include <stdio.h>
 
 /* --------------------------------------------------------------
  * VARIABLE DEFINITIONS
@@ -29,6 +30,25 @@ uint8_t IK_CFG_CurrentKeyLayer = 0;
  * Holds the fallback key layer configuration setting.
  */
 static uint8_t IK_CFG_FallbackKeyLayer = 0;
+
+static uint8_t test_map_data[1] =
+{
+	0x04
+};
+
+static IK_KeyMap_t test_key_map =
+{
+	KEYMAP_STATIC,
+	1,
+	test_map_data
+};
+
+static IK_KeyMap_t test_key_map_empty =
+{
+	KEYMAP_NONE,
+	0,
+	NULL
+};
 
 /* --------------------------------------------------------------
  * FUNCTION DEFINITIONS
@@ -45,15 +65,13 @@ IK_KeyMap_t* IK_CFG_GetKeyMap(uint16_t matrix_id)
 	// --- START OF TEST CODE ---
 	// This test code always returns a static key binding to the keyboard key "A".
 	// So no matter which matrix id is given - the key is mapped to "A".
-	static IK_KeyMap_t tst_map;
-	static uint8_t tst_map_data[1];
-
-	tst_map_data[0] = 0x04; // "A" key on the keyboard.
-
-	tst_map.Type = KEYMAP_STATIC;
-	tst_map.DataSize = 1;
-	tst_map.Data = tst_map_data;
-
-	return &tst_map;
+	if (matrix_id == 0)
+	{
+		return &test_key_map_empty;
+	}
+	else
+	{
+		return &test_key_map;
+	}
 	// --- END OF TEST CODE ---
 }

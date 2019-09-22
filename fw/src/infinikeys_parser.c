@@ -18,6 +18,7 @@
 
 #include "infinikeys_parser.h"
 
+#include <stdio.h>
 #include <string.h>
 #include "infinikeys_usbif.h"
 #include "infinikeys_actionhandler.h"
@@ -36,8 +37,9 @@ void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_
 
 	// Clear the HID report pressed key table.
 	memset(IK_HID_PressedKeys_Buffer, 0x00, IK_KEY_ROLLOVER);
-	// Clear the HID report modifier byte.
-	IK_HID_ModifierKeys = 0x00;
+	// Clear the HID report modifier key buffer.
+	for (uint8_t i = 0; i < 8; i++)
+		IK_HID_ModifierKeys[i] = 0;
 
 	// Parse the pressed keys table.
 	for (uint16_t pk_idx = 0; pk_idx < pressedkeys_table_size; pk_idx++)
@@ -57,7 +59,7 @@ void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_
 				{
 				case IK_KEY_MAP_MODIFIER_TYPE_HID:
 					// Next keymap data byte is the HID modifier bit.
-					IK_HID_ModifierKeys |= pressed_keymap->Data[1];
+					IK_HID_ModifierKeys[pressed_keymap->Data[1]] = 1;
 					break;
 				case IK_KEY_MAP_MODIFIER_TYPE_LAYER:
 					// Next keymap data byte is the new keyboard layer to switch to.
@@ -82,6 +84,11 @@ void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_
 		case KEYMAP_ACTION:
 			// Execute action.
 			IK_ACT_ExecuteRaw(pressed_keymap->Data, pressed_keymap->DataSize);
+			break;
+		case KEYMAP_NONE:
+		default:
+			// KEYMAP_NONE or any other invalid state
+			// No key-map.
 			break;
 		}
 	}

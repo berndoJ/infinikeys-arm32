@@ -15,14 +15,17 @@
  * 
  *--------------------------------------------------------------*/
 
-#if defined(IK_PLATFORM_STM32_CUBE)
 #ifndef INFINIKEYS_HAL_STM32CUBE_H_
 #define INFINIKEYS_HAL_STM32CUBE_H_
 
 #include "infinikeys_common.h"
 
+#if defined(IK_PLATFORM_STM32_CUBE)
+
 #if defined(IK_PLATFORM_STM32_CUBE_DEVICE_F1XX)
 #	include "stm32f1xx_hal.h"
+#elif defined(IK_PLATFORM_STM32_CUBE_DEVICE_F4XX)
+#	include "stm32f4xx_hal.h"
 #else
 #	error IK_PLATFORM_STM32_CUBE_DEVICE_XXXX not defined.
 #endif

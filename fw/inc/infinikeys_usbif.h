@@ -19,22 +19,29 @@
 
 #include "infinikeys_common.h"
 
-#if defined(IK_PLATFORM_STM32_CUBE)
-#include "infinikeys_usbif_stm32cube.h"
-#endif
-
 /* --------------------------------------------------------------
  * DEFINITIONS
  * ------------------------------------------------------------*/
 
-//#define IK_HID_MODIFIER_BIT_L_CTRL			(1 << 0)
-//#define IK_HID_MODIFIER_BIT_L_SHIFT			(1 << 1)
-//#define IK_HID_MODIFIER_BIT_L_ALT			(1 << 2)
-//#define IK_HID_MODIFIER_BIT_L_GUI			(1 << 3)
-//#define IK_HID_MODIFIER_BIT_R_CTRL			(1 << 4)
-//#define IK_HID_MODIFIER_BIT_R_SHIFT			(1 << 5)
-//#define IK_HID_MODIFIER_BIT_R_ALT			(1 << 6)
-//#define IK_HID_MODIFIER_BIT_R_GUI			(1 << 7)
+#define IK_HID_MODIFIER_L_CTRL				0
+#define IK_HID_MODIFIER_L_SHIFT				1
+#define IK_HID_MODIFIER_L_ALT				2
+#define IK_HID_MODIFIER_L_GUI				3
+#define IK_HID_MODIFIER_R_CTRL				4
+#define IK_HID_MODIFIER_R_SHIFT				5
+#define IK_HID_MODIFIER_R_ALT				6
+#define IK_HID_MODIFIER_R_GUI				7
+
+/*
+#define KEYBOARD_MODIFIER_BIT_L_CTRL			(1 << 0)
+#define KEYBOARD_MODIFIER_BIT_L_SHIFT			(1 << 1)
+#define KEYBOARD_MODIFIER_BIT_L_ALT				(1 << 2)
+#define KEYBOARD_MODIFIER_BIT_L_GUI				(1 << 3)
+#define KEYBOARD_MODIFIER_BIT_R_CTRL			(1 << 4)
+#define KEYBOARD_MODIFIER_BIT_R_SHIFT			(1 << 5)
+#define KEYBOARD_MODIFIER_BIT_R_ALT				(1 << 6)
+#define KEYBOARD_MODIFIER_BIT_R_GUI				(1 << 7)
+ */
 
 /* --------------------------------------------------------------
  * VARIABLE DECLARATIONS
@@ -47,11 +54,11 @@
 extern uint8_t IK_HID_PressedKeys_Buffer[IK_KEY_ROLLOVER];
 
 /*
- * Buffer for the modifier key byte. This byte gets sent to the USB
- * host when a report gets sent, indicating which modifier keys
- * on the keyboard are pressed.
+ * Buffer for the modifier key states. Use the index definitions
+ * IK_HID_MODIFIER_X_XXXX to set a value of this buffer to 0 or 1.
+ * (1 indicating the modifier key is pressed)
  */
-extern uint8_t IK_HID_ModifierKeys;
+extern uint8_t IK_HID_ModifierKeys[8];
 
 /*
  * Buffer for the OEM reserved byte that gets sent over to the USB

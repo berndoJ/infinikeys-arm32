@@ -15,3 +15,25 @@
  *--------------------------------------------------------------*/
 
 #include "infinikeys.h"
+
+#include "infinikeys_acq.h"
+#include "infinikeys_parser.h"
+
+/* --------------------------------------------------------------
+ * PRIVATE VARIABLE DEFINITIONS
+ * ------------------------------------------------------------*/
+
+static uint8_t pressed_keys_buffer[IK_PHYSICAL_KEY_COUNT];
+
+/* --------------------------------------------------------------
+ * FUNCTION DEFINITIONS
+ * ------------------------------------------------------------*/
+
+void IK_KeyboardPollCyleTick(void)
+{
+	// Acquire keyboard states.
+	_IK_ACQ_Poll(pressed_keys_buffer, IK_PHYSICAL_KEY_COUNT);
+
+	// Parse the pressed keys and send necessary HID reports.
+	_IK_Parser_ParseKeyStates(pressed_keys_buffer, IK_PHYSICAL_KEY_COUNT);
+}
