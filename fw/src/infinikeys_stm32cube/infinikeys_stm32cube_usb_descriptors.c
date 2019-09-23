@@ -105,7 +105,7 @@ uint8_t IK_USB_HIDReportDescriptor[IK_HID_REPORT_DESC_SIZE] __attribute__((align
 	0x09, 0x06,                    // USAGE (Keyboard)
 	0xa1, 0x01,                    // COLLECTION (Application)
 
-	0x85, 0x01,                    //   REPORT_ID (1)
+	0x85, IK_KEYBOARD_HID_REPORT_ID, //   REPORT_ID (1)
 
 	0x05, 0x07,                    //   USAGE_PAGE (Keyboard)
 	0x19, 0xe0,                    //   USAGE_MINIMUM (Keyboard LeftControl)
@@ -147,14 +147,14 @@ uint8_t IK_USB_HIDReportDescriptor[IK_HID_REPORT_DESC_SIZE] __attribute__((align
 	0x09, 0x01,                    // USAGE (Vendor Usage 1)
 	0xa1, 0x01,                    // COLLECTION (Application)
 
-	0x85, 0x02,                    //   REPORT_ID (2)
+	0x85, IK_CFG_HID_REPORT_ID,    //   REPORT_ID (2)
 
 	0x06, 0x00, 0xff,              //   USAGE_PAGE (Vendor Defined Page 1)
 	0x09, 0x01,                    //   USAGE (Vendor Usage 1)
 	0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
 	0x26, 0xff, 0x00,              //   LOGICAL_MAXIMUM (255)
 	0x75, 0x08,                    //   REPORT_SIZE (8)/
-	0x95, 0x03,                    //   REPORT_COUNT (3)
+	0x95, 0x40,                    //   REPORT_COUNT (64)
 	0x91, 0x02,                    //   OUTPUT (Data,Var,Abs)
 
 	0xc0                           // END_COLLECTION

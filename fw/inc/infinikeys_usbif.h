@@ -67,4 +67,15 @@ extern uint8_t IK_HID_OEMReservedReportByte;
  */
 void IK_USBIF_SendHIDReport(void);
 
+/*
+ * Description
+ * Callback function for hardware/platform specific code to
+ * report a newly recieved HID report to infinikeys.
+ *
+ * Parameters
+ * - uint8_t* report_buf: Pointer to the buffer which holds the recieved report.
+ * - uint16_t report_buf_size: Size (in bytes) of the report buffer.
+ */
+void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size);
+
 #endif /* INFINIKEYS_USBIF_H_ */

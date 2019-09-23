@@ -22,6 +22,7 @@
 #if defined(IK_PLATFORM_STM32_CUBE)
 
 #include "infinikeys_stm32cube/infinikeys_stm32cube_usb_descriptors.h"
+#include "infinikeys_usbif.h"
 
 /* --------------------------------------------------------------
  * FUNCTION DECLARATIONS
@@ -71,6 +72,7 @@ static int8_t IK_USBD_HID_DeInit(void)
  */
 static int8_t IK_USBD_HID_OutEvent(uint8_t* report_buffer)
 {
+	IK_USBIF_RecieveHIDReportCB(report_buffer, IK_HID_OUT_REPORT_BUFFER_SIZE);
 	return USBD_OK;
 }
 

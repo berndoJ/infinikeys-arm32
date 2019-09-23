@@ -48,6 +48,33 @@
 #define IK_KEY_MAP_MODIFIER_TYPE_HID				0x00
 #define IK_KEY_MAP_MODIFIER_TYPE_LAYER				0x01
 
+#define IK_KEYBOARD_HID_REPORT_ID					0x01
+#define IK_CFG_HID_REPORT_ID						0x02
+
+/*
+ * Configuration Command Allocation:
+ * 0x00       :		Test command. (Used for testing firmware, ...; can be ignored)
+ * 0x01 - 0x0f:		Basic configuration control commands.
+ * 0x80 - 0x8f:		Key-mapping related commands.
+ */
+
+/*
+ * TEST command:
+ */
+#define IK_CFG_CMD_TEST								0x00
+
+/*
+ * SET_KEYMAP command:
+ * Adds a new key map with the given values to the key map table.
+ * [0] - Key Layer (0x00 - 0xff)
+ * [1] - Matrix ID LOWBYTE (0x00 - 0xff)
+ * [2] - Matrix ID HIBYTE (0x00 - 0xff)
+ * [3] - Key Map Type - According to IK_KeyMapType_t enum values (see IK_KeyMapType_t for min/max values)
+ * [4] - Map Data Size - In bytes (0x00 - 0x3a)
+ * [5 - 62] - Map Data (max. 58 bytes) (0x00 - 0xff)
+ */
+#define IK_CFG_CMD_SET_KEYMAP						0x80
+
 /* --------------------------------------------------------------
  * STRUCTS, ENUMS AND TYPEDEFS
  * ------------------------------------------------------------*/
@@ -63,10 +90,10 @@
  * - KEYMAP_NONE: The key is disabled.
  */
 typedef enum {
-	KEYMAP_MODIFIER,
-	KEYMAP_STATIC,
-	KEYMAP_ACTION,
-	KEYMAP_NONE
+	KEYMAP_MODIFIER = 0,
+	KEYMAP_STATIC = 1,
+	KEYMAP_ACTION = 2,
+	KEYMAP_NONE = 3
 } IK_KeyMapType_t;
 
 /*
