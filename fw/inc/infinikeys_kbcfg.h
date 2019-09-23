@@ -40,6 +40,7 @@ extern uint8_t IK_CFG_CurrentKeyLayer;
  * ------------------------------------------------------------*/
 
 uint8_t IK_CFG_Init(void);
+
 void IK_CFG_DeInit(void);
 
 /*
@@ -61,5 +62,7 @@ uint8_t IK_CFG_GetKeyLayerCount(void);
  * - uint16_t matrix_id: The matrix id to get the keymap of.
  */
 IK_KeyMap_t* IK_CFG_GetKeyMap(uint16_t matrix_id);
+
+void IK_CFG_LoadKeyMapToTable(uint8_t key_layer, uint16_t matrix_id, IK_KeyMap_t key_map);
 
 #endif /* INFINIKEYS_KBCFG_H_ */

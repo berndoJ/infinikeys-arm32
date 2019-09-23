@@ -32,17 +32,6 @@
 #define IK_HID_MODIFIER_R_ALT				6
 #define IK_HID_MODIFIER_R_GUI				7
 
-/*
-#define KEYBOARD_MODIFIER_BIT_L_CTRL			(1 << 0)
-#define KEYBOARD_MODIFIER_BIT_L_SHIFT			(1 << 1)
-#define KEYBOARD_MODIFIER_BIT_L_ALT				(1 << 2)
-#define KEYBOARD_MODIFIER_BIT_L_GUI				(1 << 3)
-#define KEYBOARD_MODIFIER_BIT_R_CTRL			(1 << 4)
-#define KEYBOARD_MODIFIER_BIT_R_SHIFT			(1 << 5)
-#define KEYBOARD_MODIFIER_BIT_R_ALT				(1 << 6)
-#define KEYBOARD_MODIFIER_BIT_R_GUI				(1 << 7)
- */
-
 /* --------------------------------------------------------------
  * VARIABLE DECLARATIONS
  * ------------------------------------------------------------*/

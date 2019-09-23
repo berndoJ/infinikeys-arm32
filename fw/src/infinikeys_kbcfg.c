@@ -133,6 +133,14 @@ IK_KeyMap_t* IK_CFG_GetKeyMap(uint16_t matrix_id)
 	return &kl_map_table[matrix_id];
 }
 
+void IK_CFG_LoadKeyMapToTable(uint8_t key_layer, uint16_t matrix_id, IK_KeyMap_t key_map)
+{
+	if ((key_layer >= IK_CFG_KeyLayerCount) || (matrix_id >= IK_KEY_MAP_TABLE_MATRIX_SIZE))
+		return;
+
+	IK_CFG_KeyMapTable[key_layer][matrix_id] = key_map;
+}
+
 /* --------------------------------------------------------------
  * PRIVATE FUNCTION DEFINITIONS
  * ------------------------------------------------------------*/
@@ -173,6 +181,11 @@ static void _IK_CFG_FreeKeyMapTableMemory(uint8_t key_layer_size, uint16_t key_m
 		// Check for NULL pointer.
 		if (current_ptr == NULL)
 			continue;
+
+		if (current_ptr->Data != NULL)
+		{
+			free(current_ptr->Data);
+		}
 
 		free(current_ptr);
 	}
