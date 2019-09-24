@@ -19,8 +19,6 @@
 #include <stdlib.h>
 #include "infinikeys_kbcfg.h"
 
-#include "main.h"
-
 #if defined(IK_PLATFORM_STM32_CUBE)
 #include "usb_device.h"
 #include "infinikeys_stm32cube/infinikeys_stm32cube_usb_if.h"
@@ -81,8 +79,6 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 				{
 				case IK_CFG_CMD_TEST:
 					// Test command.
-					IS31FL3236_WriteRGBPWM(&h_rgb_controller, 1, 255, 255, 255);
-					IS31FL3236_Update(&h_rgb_controller);
 					break;
 				case IK_CFG_CMD_SET_KEYMAP:
 					/*
