@@ -19,7 +19,6 @@
 
 #include "infinikeys_kbcfg.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
 /* --------------------------------------------------------------
@@ -79,15 +78,6 @@ uint8_t IK_CFG_Init(void)
 	{
 		IK_CFG_KeyMapTable[0][i] = _IK_KeyMap_None;
 	}
-
-	static uint8_t test_km_data[1] = { 0x04 };
-	IK_KeyMap_t test_km =
-	{
-		KEYMAP_STATIC,
-		1,
-		test_km_data
-	};
-	IK_CFG_KeyMapTable[0][8] = test_km;
 
 	return 0;
 }

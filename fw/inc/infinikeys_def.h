@@ -81,23 +81,6 @@
 
 /*
  * Description
- * This enum type is used to represent a type of key map.
- *
- * Key map types:
- * - KEYMAP_MODIFIER: A key map to a modifier key.
- * - KEYMAP_STATIC: A static key map - just a normal key - such as the "A" key.
- * - KEYMAP_ACTION: A key map to an action. (Only used for macro keys)
- * - KEYMAP_NONE: The key is disabled.
- */
-typedef enum {
-	KEYMAP_MODIFIER = 0,
-	KEYMAP_STATIC = 1,
-	KEYMAP_ACTION = 2,
-	KEYMAP_NONE = 3
-} IK_KeyMapType_t;
-
-/*
- * Description
  * Represents a logic level.
  *
  * IK Logic Levels:
@@ -108,18 +91,5 @@ typedef enum {
 	IK_LOGIC_LEVEL_LOW = 0,
 	IK_LOGIC_LEVEL_HIGH = 1
 } IK_LogicLevel_t;
-
-/*
- * Description
- * Struct which represents a key map. Through a struct of this
- * type a key map can be represented - for example mapping
- * the physical key "S" to the HID key "A" (through a static
- * key mapping in this case).
- */
-typedef struct {
-	IK_KeyMapType_t Type;
-	uint16_t DataSize;
-	uint8_t* Data;
-} IK_KeyMap_t;
 
 #endif /* INFINIKEYS_DEF_H_ */
