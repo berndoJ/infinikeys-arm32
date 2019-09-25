@@ -70,10 +70,6 @@ uint8_t IK_CFG_Init(void)
 	if (_IK_CFG_AllocKeyMapTable(1, IK_KEY_MAP_TABLE_MATRIX_SIZE) != 0)
 		return 1;
 
-	IK_CFG_KeyLayerCount = 1;
-	IK_CFG_SetFallbackKeyLayer(0);
-	IK_CFG_CurrentKeyLayer = 0;
-
 	for (uint16_t i = 0; i < IK_KEY_MAP_TABLE_MATRIX_SIZE; i++)
 	{
 		IK_CFG_KeyMapTable[0][i] = _IK_KeyMap_None;
@@ -104,10 +100,10 @@ uint8_t IK_CFG_GetKeyLayerCount(void)
 	return IK_CFG_KeyLayerCount;
 }
 
-IK_KeyMap_t* IK_CFG_GetKeyMap(uint16_t matrix_id)
+IK_KeyMap_t* IK_CFG_GetKeyMap(uint8_t key_layer, uint16_t matrix_id)
 {
-	if (IK_CFG_CurrentKeyLayer >= IK_CFG_KeyLayerCount)
-		IK_CFG_CurrentKeyLayer = IK_CFG_FallbackKeyLayer;
+	if (key_layer >= IK_CFG_KeyLayerCount)
+		key_layer = IK_CFG_FallbackKeyLayer;
 
 	if (matrix_id >= IK_KEY_MAP_TABLE_MATRIX_SIZE)
 		matrix_id = 0;
@@ -115,7 +111,7 @@ IK_KeyMap_t* IK_CFG_GetKeyMap(uint16_t matrix_id)
 	if (matrix_id == 0 || IK_CFG_KeyMapTable == NULL)
 		return &_IK_KeyMap_None;
 
-	IK_KeyMap_t* kl_map_table = IK_CFG_KeyMapTable[IK_CFG_CurrentKeyLayer];
+	IK_KeyMap_t* kl_map_table = IK_CFG_KeyMapTable[key_layer];
 
 	if (kl_map_table == NULL)
 		return &_IK_KeyMap_None;
@@ -131,6 +127,25 @@ void IK_CFG_LoadKeyMapToTable(uint8_t key_layer, uint16_t matrix_id, IK_KeyMap_t
 	IK_CFG_KeyMapTable[key_layer][matrix_id] = key_map;
 }
 
+void IK_CFG_ReInitKeyMap(uint8_t layer_count)
+{
+	// Free the old's key map memory.
+	_IK_CFG_FreeKeyMapTableMemory(IK_CFG_KeyLayerCount, IK_KEY_MAP_TABLE_MATRIX_SIZE);
+
+	// Allocate new memory.
+	if (_IK_CFG_AllocKeyMapTable(1, IK_KEY_MAP_TABLE_MATRIX_SIZE) != 0)
+		return;
+
+	// Fill the new key map with empty maps.
+	for (uint8_t i = 0; i < layer_count; i++)
+	{
+		for (uint16_t j = 0; j < IK_KEY_MAP_TABLE_MATRIX_SIZE; j++)
+		{
+			IK_CFG_KeyMapTable[i][j] = _IK_KeyMap_None;
+		}
+	}
+}
+
 /* --------------------------------------------------------------
  * PRIVATE FUNCTION DEFINITIONS
  * ------------------------------------------------------------*/
@@ -141,7 +156,7 @@ static uint8_t _IK_CFG_AllocKeyMapTable(uint8_t key_layer_size, uint16_t key_mat
 	IK_CFG_KeyMapTable = (IK_KeyMap_t**)malloc(sizeof(IK_KeyMap_t*) * key_layer_size);
 
 	// Check if the allocation was successful.
-	if (IK_CFG_KeyMapTable == NULL)
+	if (IK_CFG_KeyMapTable == NULL || key_layer_size < 1)
 		return 1;
 
 	// Allocate the inner arrays.
@@ -153,6 +168,11 @@ static uint8_t _IK_CFG_AllocKeyMapTable(uint8_t key_layer_size, uint16_t key_mat
 		if (IK_CFG_KeyMapTable[i] == NULL)
 			return 1;
 	}
+
+	// Adjust the key layer count and set the fallback and current layer to the first layer.
+	IK_CFG_KeyLayerCount = key_layer_size;
+	IK_CFG_SetFallbackKeyLayer(0);
+	IK_CFG_CurrentKeyLayer = 0;
 
 	return 0;
 }
@@ -172,6 +192,7 @@ static void _IK_CFG_FreeKeyMapTableMemory(uint8_t key_layer_size, uint16_t key_m
 		if (current_ptr == NULL)
 			continue;
 
+		// Free the data if it is possible.
 		if (current_ptr->Data != NULL)
 		{
 			free(current_ptr->Data);

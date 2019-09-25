@@ -75,6 +75,13 @@
  */
 #define IK_CFG_CMD_SET_KEYMAP						0x80
 
+/*
+ * REINIT_KEYMAP command:
+ * Reinits the key map table with the given parameters.
+ * [0] - Key Layer Count (0x00 - IK_MATRIX_MAX_KEY_LAYERS)
+ */
+#define IK_CFG_CMD_REINIT_KEYMAP					0x81
+
 /* --------------------------------------------------------------
  * STRUCTS, ENUMS AND TYPEDEFS
  * ------------------------------------------------------------*/

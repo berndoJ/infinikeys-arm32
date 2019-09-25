@@ -46,7 +46,7 @@ void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_
 	{
 		uint8_t pressed_keycode = pressedkeys_table[pk_idx];
 		// Get the key mapping.
-		IK_KeyMap_t* pressed_keymap = IK_CFG_GetKeyMap(pressed_keycode);
+		IK_KeyMap_t* pressed_keymap = IK_CFG_GetKeyMap(IK_CFG_CurrentKeyLayer, pressed_keycode);
 		// Switch the action based on the key mapping type.
 		switch (pressed_keymap->Type)
 		{
