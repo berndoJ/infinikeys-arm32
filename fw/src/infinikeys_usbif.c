@@ -123,6 +123,18 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 						}
 					}
 					break;
+				case IK_CFG_CMD_REINIT_KEYMAP:
+					/*
+					 * REINIT_KEYMAP command:
+					 * Reinits the key map table with the given parameters.
+					 * [0] - Key Layer Count (0x00 - IK_MATRIX_MAX_KEY_LAYERS)
+					 */
+					if (report_buf_size > 2)
+					{
+						uint8_t klc = report_buf[2];
+						IK_CFG_ReInitKeyMap(klc);
+					}
+					break;
 				default:
 					// Invalid command.
 					break;
