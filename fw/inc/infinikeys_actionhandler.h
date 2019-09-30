@@ -19,6 +19,10 @@
 
 #include "infinikeys_common.h"
 
+typedef struct {
+
+} IK_Action_t;
+
 void IK_ACT_ExecuteRaw(uint8_t* raw_data, uint16_t raw_data_size);
 
 #endif /* INFINIKEYS_ACTIONHANDLER_H_ */

@@ -30,7 +30,7 @@
  * Description
  * This enum type is used to represent a type of key map.
  *
- * Key map types:
+ * Values
  * - KEYMAP_MODIFIER: A key map to a modifier key.
  * - KEYMAP_STATIC: A static key map - just a normal key - such as the "A" key.
  * - KEYMAP_ACTION: A key map to an action. (Only used for macro keys)
@@ -42,6 +42,44 @@ typedef enum {
 	KEYMAP_ACTION = 2,
 	KEYMAP_NONE = 3
 } IK_KeyMapType_t;
+
+/*
+ * Description
+ * Describes a type of modifier key.
+ *
+ * Values
+ * - MODIFIER_TYPE_HID: Default HID modifier key. (e.g. L-CTRL, R-SHIFT, ...)
+ * - MODIFIER_TYPE_KEY_LAYER: Key layer modifier key.
+ */
+typedef enum {
+	MODIFIER_TYPE_HID = 0,
+	MODIFIER_TYPE_KEY_LAYER = 1
+} IK_ModifierType_t;
+
+/*
+ * Description
+ * HID modifier keys.
+ *
+ * Values
+ * - HID_MODIFIER_L_CTRL: Left control key.
+ * - HID_MODIFIER_L_SHIFT: Left shift key.
+ * - HID_MODIFIER_L_ALT: Left alt key.
+ * - HID_MODIFIER_L_GUI: Left GUI key. (Light Windows / Linux / Apple key)
+ * - HID_MODIFIER_R_CTRL: Right control key.
+ * - HID_MODIFIER_R_SHIFT: Right shit key.
+ * - HID_MODIFIER_R_ALT: Right alt key. (AltGr on some QWERTZ layouts)
+ * - HID_MODIFIER_R_GUI: Right GUI key. (Right Windows / Linux / Apple key)
+ */
+typedef enum {
+	HID_MODIFIER_L_CTRL = 0,
+	HID_MODIFIER_L_SHIFT = 1,
+	HID_MODIFIER_L_ALT = 2,
+	HID_MODIFIER_L_GUI = 3,
+	HID_MODIFIER_R_CTRL = 4,
+	HID_MODIFIER_R_SHIFT = 5,
+	HID_MODIFIER_R_ALT = 6,
+	HID_MODIFIER_R_GUI = 7
+} IK_HIDModifier_t;
 
 /* --------------------------------------------------------------
  * STRUCTS
@@ -58,7 +96,49 @@ typedef struct {
 	IK_KeyMapType_t Type;
 	uint16_t DataSize;
 	uint8_t* Data;
+	void* Metadata;
 } IK_KeyMap_t;
+
+/*
+ * Description
+ * Represents modifier key map metadata.
+ */
+typedef struct {
+	IK_ModifierType_t ModifierType;
+	void* ModifierMetadata;
+} IK_ModifierMapMetadata_t;
+
+/*
+ * Description
+ * Metadata for HID modifier key maps.
+ */
+typedef struct {
+	IK_HIDModifier_t HIDModifierCode;
+} IK_HIDModifierMapMetadata_t;
+
+/*
+ * Description
+ * Metadata for key layer modifier keys.
+ */
+typedef struct {
+	uint8_t KeyLayer;
+} IK_KeyLayerModifierMetadata_t;
+
+/*
+ * Description
+ * Static key map metadata.
+ */
+typedef struct {
+	uint8_t Keycode;
+} IK_StaticMapMetadata_t;
+
+/*
+ * Description
+ * Action / macro key map metadata.
+ */
+typedef struct {
+	IK_Action_t Action;
+} IK_ActionMapMetadata_t;
 
 /* --------------------------------------------------------------
  * VARIABLE DECLARATIONS
