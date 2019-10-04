@@ -49,7 +49,6 @@ static uint8_t IK_CFG_KeyLayerCount = 0;
 static IK_KeyMap_t _IK_KeyMap_None =
 {
 	KEYMAP_NONE,
-	0,
 	NULL
 };
 
@@ -192,11 +191,22 @@ static void _IK_CFG_FreeKeyMapTableMemory(uint8_t key_layer_size, uint16_t key_m
 		if (current_ptr == NULL)
 			continue;
 
-		// Free the data if it is possible.
-		if (current_ptr->Data != NULL)
+		// Free sub-metadata if possible.
+		switch (current_ptr->Type)
 		{
-			free(current_ptr->Data);
+		case KEYMAP_MODIFIER:
+			// Check for NULL because we are accessing a sub-metadata. Otherwise (free function) no NULL-check is required.
+			if (current_ptr->Metadata != NULL)
+			{
+				free(((IK_ModifierMapMetadata_t*)current_ptr->Metadata)->ModifierMetadata);
+			}
+			break;
+		default:
+			break;
 		}
+
+		// Free the metadata pointer if metadata is present.
+		free(current_ptr->Metadata);
 
 		free(current_ptr);
 	}

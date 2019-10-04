@@ -18,7 +18,7 @@
 
 #include "infinikeys_parser.h"
 
-#include <stdio.h>
+#include <stddef.h>
 #include <string.h>
 #include "infinikeys_usbif.h"
 #include "infinikeys_actionhandler.h"
@@ -51,6 +51,42 @@ void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_
 		switch (pressed_keymap->Type)
 		{
 		case KEYMAP_MODIFIER:
+			// Retrieve map metadata.
+			;
+			IK_ModifierMapMetadata_t* mod_metadata = (IK_ModifierMapMetadata_t*)pressed_keymap->Metadata;
+
+			if (mod_metadata == NULL)
+				break;
+
+			// Switch according to modifier key type.
+			switch (mod_metadata->ModifierType)
+			{
+			case MODIFIER_TYPE_HID:
+				// Retrieve the HID modifier metadata.
+				;
+				IK_HIDModifierMapMetadata_t* hid_mod_metadata = (IK_HIDModifierMapMetadata_t*)mod_metadata->ModifierMetadata;
+
+				if (hid_mod_metadata == NULL)
+					break;
+
+				// Set the HID modifier key to be active.
+				IK_HID_ModifierKeys[hid_mod_metadata->HIDModifierCode] = 1;
+				break;
+			case MODIFIER_TYPE_KEY_LAYER:
+				// Retrieve the key layer modifier metadata.
+				;
+				IK_KeyLayerModifierMetadata_t* kl_mod_metadata;
+				kl_mod_metadata = (IK_KeyLayerModifierMetadata_t*)mod_metadata->ModifierMetadata;
+
+				if (kl_mod_metadata == NULL)
+					break;
+
+				// Switch to the new key layer.
+				new_key_layer = kl_mod_metadata->KeyLayer;
+				break;
+			}
+
+			/* OLD IMPLEMENTATION
 			if (pressed_keymap->DataSize >= 2)
 			{
 				// Retrieve the type of modifier - HID or Layer
@@ -67,8 +103,24 @@ void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_
 					break;
 				}
 			}
+			*/
 			break;
 		case KEYMAP_STATIC:
+			// Retrieve the map metadata.
+			;
+			IK_StaticMapMetadata_t* s_metadata = (IK_StaticMapMetadata_t*)pressed_keymap->Metadata;
+
+			if (s_metadata == NULL)
+				break;
+
+			// Add the HID keycode to the HID report queue.
+			if (hid_pressedkeys_buffer_index < IK_KEY_ROLLOVER)
+			{
+				IK_HID_PressedKeys_Buffer[hid_pressedkeys_buffer_index] = s_metadata->Keycode;
+				hid_pressedkeys_buffer_index++;
+			}
+
+			/* OLD IMPLEMENTATION
 			if (pressed_keymap->DataSize >= 1)
 			{
 				// Retrieve the HID keycode (static binding from key to HID code)
@@ -80,10 +132,17 @@ void _IK_Parser_ParseKeyStates(uint8_t* pressedkeys_table, uint16_t pressedkeys_
 					hid_pressedkeys_buffer_index++;
 				}
 			}
+			*/
 			break;
 		case KEYMAP_ACTION:
-			// Execute action.
-			IK_ACT_ExecuteRaw(pressed_keymap->Data, pressed_keymap->DataSize);
+			// Retrieve the map metadata.
+			;
+			IK_ActionMapMetadata_t* act_metadata = (IK_ActionMapMetadata_t*)pressed_keymap->Metadata;
+
+			if (act_metadata == NULL)
+				break;
+
+			// TODO: Implement triggering an action.
 			break;
 		case KEYMAP_NONE:
 		default:

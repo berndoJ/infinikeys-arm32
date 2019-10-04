@@ -22,6 +22,8 @@
 
 #include "infinikeys_common.h"
 
+#include "infinikeys_actionhandler.h"
+
 /* --------------------------------------------------------------
  * ENUMS
  * ------------------------------------------------------------*/
@@ -94,8 +96,6 @@ typedef enum {
  */
 typedef struct {
 	IK_KeyMapType_t Type;
-	uint16_t DataSize;
-	uint8_t* Data;
 	void* Metadata;
 } IK_KeyMap_t;
 
