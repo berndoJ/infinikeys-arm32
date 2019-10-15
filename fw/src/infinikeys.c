@@ -35,6 +35,21 @@ uint8_t IK_Init(void)
 	if (IK_CFG_Init() != 0)
 		return 1;
 
+	// TEST CODE START
+
+	static IK_HIDModifierMapMetadata_t test_map_meta = {
+			0x04
+	};
+
+	IK_KeyMap_t test_map = {
+			KEYMAP_STATIC,
+			&test_map_meta
+	};
+
+	IK_CFG_LoadKeyMapToTable(0, 8, test_map);
+
+	// TEST CODE END
+
 	return 0;
 }
 

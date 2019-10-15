@@ -83,32 +83,28 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 				case IK_CFG_CMD_SET_KEYMAP:
 					/*
 					 * SET_KEYMAP command data: (Starting at report index 1)
-					 * [0] - Key Layer (0x00 - 0xff)
-					 * [1] - Matrix ID LOWBYTE (0x00 - 0xff)
-					 * [2] - Matrix ID HIBYTE (0x00 - 0xff)
+					 * [2] - Key Layer (0x00 - 0xff)
 					 * [3] - Key Map Type - According to IK_KeyMapType_t enum values (see IK_KeyMapType_t for min/max values)
-					 * [4 - 62] - Map Data (see individual map types for more information)
-					 *
-					 * [4] - Map Data Size - In bytes (0x00 - 0x3a)
-					 * [5 - 62] - Map Data (max. 58 bytes) (0x00 - 0xff)
+					 * [4] - Matrix ID LOWBYTE (0x00 - 0xff)
+					 * [5] - Matrix ID HIBYTE (0x00 - 0xff)
 					 */
 					if (report_buf_size > 6)
 					{
 						uint8_t map_key_layer = report_buf[2];
-						uint16_t map_matrix_id = report_buf[3] + (report_buf[4] << 8);
+						uint16_t map_matrix_id = report_buf[4] + (report_buf[5] << 8);
 
 						if (map_key_layer < IK_CFG_GetKeyLayerCount() && map_matrix_id < IK_KEY_MAP_TABLE_MATRIX_SIZE)
 						{
 							IK_KeyMap_t map;
 
-							map.Type = report_buf[2];
+							map.Type = report_buf[3];
 							map.Metadata = NULL;
 
 							switch (map.Type)
 							{
 							case KEYMAP_MODIFIER:
 								/*
-								 * [4] - Modifier key type (enum IK_ModifierType_t)
+								 * [6] - Modifier key type (enum IK_ModifierType_t)
 								 */
 								;
 								IK_ModifierMapMetadata_t* mod_metadata = (IK_ModifierMapMetadata_t*)malloc(sizeof(IK_ModifierMapMetadata_t));
@@ -116,14 +112,14 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 								if (mod_metadata == NULL)
 									break;
 
-								mod_metadata->ModifierType = report_buf[4];
+								mod_metadata->ModifierType = report_buf[6];
 								mod_metadata->ModifierMetadata = NULL;
 
 								switch (mod_metadata->ModifierType)
 								{
 								case MODIFIER_TYPE_HID:
 									/*
-									 * [5] - HID modifier key. (enum IK_HIDModifier_t)
+									 * [7] - HID modifier key. (enum IK_HIDModifier_t)
 									 */
 									;
 									IK_HIDModifierMapMetadata_t* hid_mod_metadata = (IK_HIDModifierMapMetadata_t*)malloc(sizeof(IK_HIDModifierMapMetadata_t));
@@ -131,12 +127,12 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 									if (hid_mod_metadata == NULL)
 										break;
 
-									hid_mod_metadata->HIDModifierCode = report_buf[5];
+									hid_mod_metadata->HIDModifierCode = report_buf[7];
 									mod_metadata->ModifierMetadata = hid_mod_metadata;
 									break;
 								case MODIFIER_TYPE_KEY_LAYER:
 									/*
-									 * [5] - Key layer the modifier key switches to (0x00 - 0xff)
+									 * [7] - Key layer the modifier key switches to (0x00 - 0xff)
 									 */
 									;
 									IK_KeyLayerModifierMetadata_t* kl_mod_metadata = (IK_KeyLayerModifierMetadata_t*)malloc(sizeof(IK_KeyLayerModifierMetadata_t));
@@ -144,7 +140,7 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 									if (kl_mod_metadata == NULL)
 										break;
 
-									kl_mod_metadata->KeyLayer = report_buf[5];
+									kl_mod_metadata->KeyLayer = report_buf[7];
 									mod_metadata->ModifierMetadata = kl_mod_metadata;
 									break;
 								default:
@@ -155,7 +151,7 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 								break;
 							case KEYMAP_STATIC:
 								/*
-								 * [4] - HID keycode (0x00 - 0xff)
+								 * [6] - HID keycode (0x00 - 0xff)
 								 */
 								;
 								IK_StaticMapMetadata_t* s_metadata = (IK_StaticMapMetadata_t*)malloc(sizeof(IK_StaticMapMetadata_t));
@@ -163,7 +159,7 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 								if (s_metadata == NULL)
 									break;
 
-								s_metadata->Keycode = report_buf[4];
+								s_metadata->Keycode = report_buf[6];
 
 								map.Metadata = s_metadata;
 								break;
