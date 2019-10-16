@@ -185,40 +185,6 @@ void IK_USBIF_RecieveHIDReportCB(uint8_t* report_buf, uint16_t report_buf_size)
 							IK_CFG_LoadKeyMapToTable(map_key_layer, map_matrix_id, map);
 						}
 					}
-					/* OLD IMPLEMENTATION
-					if (report_buf_size > 6)
-					{
-						uint8_t key_layer = report_buf[2];
-						uint16_t matrix_id = report_buf[3] + (report_buf[4] << 8);
-						if (key_layer < IK_CFG_GetKeyLayerCount() && matrix_id < IK_KEY_MAP_TABLE_MATRIX_SIZE)
-						{
-							IK_KeyMap_t new_key_map;
-
-							// Set up basic struct variables.
-							new_key_map.Type = report_buf[5];
-							new_key_map.DataSize = report_buf[6];
-
-							// Create data array, add the recieved data to it and add it to the key map struct.
-							if (report_buf_size > 6 + new_key_map.DataSize && new_key_map.DataSize > 0)
-							{
-								uint8_t* new_key_map_data = malloc(new_key_map.DataSize);
-
-								if (new_key_map_data != NULL)
-								{
-									for (uint8_t i = 0; i < new_key_map.DataSize; i++)
-									{
-										new_key_map_data[i] = report_buf[7 + i];
-									}
-
-									new_key_map.Data = new_key_map_data;
-								}
-							}
-
-							// Load in the new key map to the key map table.
-							IK_CFG_LoadKeyMapToTable(key_layer, matrix_id, new_key_map);
-						}
-					}
-					*/
 					break;
 				case IK_CFG_CMD_REINIT_KEYMAP:
 					/*

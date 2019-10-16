@@ -58,6 +58,7 @@ static IK_KeyMap_t _IK_KeyMap_None =
 
 static uint8_t _IK_CFG_AllocKeyMapTable(uint8_t key_layer_size, uint16_t key_matrix_size);
 static void _IK_CFG_FreeKeyMapTableMemory(uint8_t key_layer_size, uint16_t key_matrix_size);
+static void _IK_CFG_FreeKeyMap(IK_KeyMap_t* map);
 
 /* --------------------------------------------------------------
  * FUNCTION DEFINITIONS
@@ -123,6 +124,9 @@ void IK_CFG_LoadKeyMapToTable(uint8_t key_layer, uint16_t matrix_id, IK_KeyMap_t
 	if ((key_layer >= IK_CFG_KeyLayerCount) || (matrix_id >= IK_KEY_MAP_TABLE_MATRIX_SIZE))
 		return;
 
+	// Free the memory of the previous data.
+	_IK_CFG_FreeKeyMap(&IK_CFG_KeyMapTable[key_layer][matrix_id]);
+
 	IK_CFG_KeyMapTable[key_layer][matrix_id] = key_map;
 }
 
@@ -185,36 +189,45 @@ static void _IK_CFG_FreeKeyMapTableMemory(uint8_t key_layer_size, uint16_t key_m
 	// Free all inner arrays.
 	for (uint8_t i = 0; i < key_layer_size; i++)
 	{
-		IK_KeyMap_t* current_ptr = IK_CFG_KeyMapTable[i];
+		IK_KeyMap_t* current_layer = IK_CFG_KeyMapTable[i];
 
-		// Check for NULL pointer.
-		if (current_ptr == NULL)
-			continue;
-
-		// Free sub-metadata if possible.
-		switch (current_ptr->Type)
+		// Free the data of the key matrices.
+		for (uint8_t j = 0; j < key_matrix_size; j++)
 		{
-		case KEYMAP_MODIFIER:
-			// Check for NULL because we are accessing a sub-metadata. Otherwise (free function) no NULL-check is required.
-			if (current_ptr->Metadata != NULL)
-			{
-				free(((IK_ModifierMapMetadata_t*)current_ptr->Metadata)->ModifierMetadata);
-			}
-			break;
-		default:
-			break;
+			IK_KeyMap_t* current_map = &current_layer[j];
+			_IK_CFG_FreeKeyMap(current_map);
 		}
 
-		// Free the metadata pointer if metadata is present.
-		free(current_ptr->Metadata);
-
-		free(current_ptr);
+		free(current_layer);
 	}
 
 	// Free the 2D-array itself.
 	free(IK_CFG_KeyMapTable);
 }
 
+static void _IK_CFG_FreeKeyMap(IK_KeyMap_t* map)
+{
+	// Check for NULL pointer.
+	if (map == NULL)
+		return;
+
+	// Free sub-metadata if possible.
+	switch (map->Type)
+	{
+	case KEYMAP_MODIFIER:
+		// Check for NULL because we are accessing a sub-metadata. Otherwise (free function) no NULL-check is required.
+		if (map->Metadata != NULL)
+		{
+			free(((IK_ModifierMapMetadata_t*)map->Metadata)->ModifierMetadata);
+		}
+		break;
+	default:
+		break;
+	}
+
+	// Free the metadata pointer if metadata is present.
+	free(map->Metadata);
+}
 
 
 

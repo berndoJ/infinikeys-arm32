@@ -16,6 +16,7 @@
 
 #include "infinikeys.h"
 
+#include <stdlib.h>
 #include "infinikeys_acq.h"
 #include "infinikeys_parser.h"
 #include "infinikeys_kbcfg.h"
@@ -36,14 +37,12 @@ uint8_t IK_Init(void)
 		return 1;
 
 	// TEST CODE START
-
-	static IK_HIDModifierMapMetadata_t test_map_meta = {
-			0x04
-	};
+	IK_HIDModifierMapMetadata_t* test_map_metadata = malloc(sizeof(IK_HIDModifierMapMetadata_t));
+	test_map_metadata->HIDModifierCode = 0x04;
 
 	IK_KeyMap_t test_map = {
 			KEYMAP_STATIC,
-			&test_map_meta
+			test_map_metadata
 	};
 
 	IK_CFG_LoadKeyMapToTable(0, 8, test_map);
