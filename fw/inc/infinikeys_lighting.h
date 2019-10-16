@@ -46,6 +46,16 @@ typedef enum {
 	CONDITIONAL_TYPE_KEY_DOWN
 } IK_ConditionalType_t;
 
+/*
+ * Description
+ * Describes a type of an LED. Used to discriminate between
+ * RGB LEDs and monochrome LEDs.
+ */
+typedef enum {
+	LIGHTING_RGB_LED,
+	LIGHTING_MONOCHROME_LED
+} IK_LEDChromaticType_t;
+
 /* --------------------------------------------------------------
  * STRUCTS
  * ------------------------------------------------------------*/
@@ -67,6 +77,8 @@ typedef struct {
  * Describes an LED on the keyboard.
  */
 typedef struct {
+	IK_Bool_t Enabled;
+	IK_LEDChromaticType_t ChromaticType;
 	IK_LightingType_t LightingType;
 	void* LEDConfig;
 } IK_LED_t;
@@ -85,8 +97,7 @@ typedef struct {
  * animation plane.
  */
 typedef struct {
-	float AnimX;
-	float AnimY;
+	IK_Vector2f_t AnimationPlaneVector;
 } IK_AnimatedLEDConfig_t;
 
 /*
@@ -99,5 +110,34 @@ typedef struct {
 	uint8_t ParametersSize;
 	uint8_t* Parameters;
 } IK_ConditionalLEDConfig_t;
+
+
+
+typedef struct {
+	uint16_t LEDCount;
+} IK_LightingConfig_t;
+
+typedef struct {
+	IK_LightingConfig_t Config;
+	IK_Bool_t Configured;
+	IK_Bool_t GlobalLightingEnabled;
+	IK_LED_t* LEDs;
+} IK_LightingHandle_t;
+
+/* --------------------------------------------------------------
+ * FUNCTION DECLARATIONS
+ * ------------------------------------------------------------*/
+
+/*
+ * Description
+ * Initializes the infinikeys lighting module. This function does
+ * not activate / configure the lighting module.
+ */
+void IK_Lighting_Init(void);
+
+void IK_Lighting_Setup(IK_LightingConfig_t cfg);
+
+void IK_Lighting_Update(void);
+
 
 #endif /* INFINIKEYS_LIGHTING_H_ */

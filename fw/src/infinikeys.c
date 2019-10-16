@@ -49,6 +49,9 @@ uint8_t IK_Init(void)
 
 	// TEST CODE END
 
+	// Init lighting module.
+	IK_Lighting_Init();
+
 	return 0;
 }
 

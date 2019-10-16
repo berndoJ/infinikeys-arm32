@@ -18,3 +18,36 @@
  *--------------------------------------------------------------*/
 
 #include "infinikeys_lighting.h"
+
+#include <stdlib.h>
+
+/* --------------------------------------------------------------
+ * VARIABLE DEFINITIONS
+ * ------------------------------------------------------------*/
+
+static IK_LightingHandle_t lighting_handle;
+
+/* --------------------------------------------------------------
+ * FUNCTION DEFINITIONS
+ * ------------------------------------------------------------*/
+
+void IK_Lighting_Init(void)
+{
+
+}
+
+void IK_Lighting_Setup(IK_LightingConfig_t cfg)
+{
+	lighting_handle.LEDs = malloc(sizeof(IK_LED_t * cfg.LEDCount));
+
+	if (lighting_handle.LEDs == NULL)
+		return;
+
+	lighting_handle.Config = cfg;
+	lighting_handle.Configured = TRUE;
+}
+
+void IK_Lighting_Update(void)
+{
+	// Update all registered LEDs.
+}

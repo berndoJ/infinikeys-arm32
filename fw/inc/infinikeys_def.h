@@ -99,4 +99,33 @@ typedef enum {
 	IK_LOGIC_LEVEL_HIGH = 1
 } IK_LogicLevel_t;
 
+/*
+ * Description
+ * Data structure used to represent a 2-dimensional vector with
+ * single precision floating point units.
+ */
+typedef struct {
+	float x;
+	float y;
+} IK_Vector2f_t;
+
+/*
+ * Description
+ * Data structure used to represent a 2-dimensional vector with
+ * double precision floating point units.
+ */
+typedef struct {
+	double x;
+	double y;
+} IK_Vector2d_t;
+
+/*
+ * Description
+ * Simple boolean enum.
+ */
+typedef enum {
+	TRUE,
+	FALSE
+} IK_Bool_t;
+
 #endif /* INFINIKEYS_DEF_H_ */
