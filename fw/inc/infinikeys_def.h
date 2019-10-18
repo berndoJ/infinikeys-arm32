@@ -124,8 +124,8 @@ typedef struct {
  * Simple boolean enum.
  */
 typedef enum {
-	TRUE,
-	FALSE
+	TRUE = 1,
+	FALSE = 0
 } IK_Bool_t;
 
 #endif /* INFINIKEYS_DEF_H_ */

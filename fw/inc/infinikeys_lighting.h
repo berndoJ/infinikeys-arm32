@@ -32,7 +32,6 @@
  * the LED appears as and what animation it follows.
  */
 typedef enum {
-	LIGHTING_TYPE_DISABLED,
 	LIGHTING_TYPE_STATIC,
 	LIGHTING_TYPE_ANIMATED,
 	LIGHTING_TYPE_CONDITIONAL
@@ -53,7 +52,8 @@ typedef enum {
  */
 typedef enum {
 	LIGHTING_RGB_LED,
-	LIGHTING_MONOCHROME_LED
+	LIGHTING_MONOCHROME_LED,
+	LIGHTING_MONOCHROME_LED_ONOFF
 } IK_LEDChromaticType_t;
 
 /* --------------------------------------------------------------
@@ -62,15 +62,13 @@ typedef enum {
 
 /*
  * Description
- * Describes a RGB color value including an "alpha" / intensity
- * value which is used to represent the intensity of the LED.
+ * Describes a RGB color value.
  */
 typedef struct {
 	uint8_t Red;
 	uint8_t Green;
 	uint8_t Blue;
-	uint8_t Intensity;
-} IK_LightColor_t;
+} IK_Color_t;
 
 /*
  * Description
@@ -81,6 +79,7 @@ typedef struct {
 	IK_LEDChromaticType_t ChromaticType;
 	IK_LightingType_t LightingType;
 	void* LEDConfig;
+	void (*HALUpdateFunc)(uint8_t status_buffer_len, uint8_t* status_buffer);
 } IK_LED_t;
 
 /*
@@ -88,7 +87,7 @@ typedef struct {
  * Configuration data structure for static LEDs.
  */
 typedef struct {
-	IK_LightColor_t Color;
+	IK_Color_t Color;
 } IK_StaticLEDConfig_t;
 
 /*
@@ -107,7 +106,7 @@ typedef struct {
  */
 typedef struct {
 	IK_ConditionalType_t Type;
-	uint8_t ParametersSize;
+	uint16_t ParametersSize;
 	uint8_t* Parameters;
 } IK_ConditionalLEDConfig_t;
 
@@ -124,6 +123,32 @@ typedef struct {
 	IK_LED_t* LEDs;
 } IK_LightingHandle_t;
 
+
+
+
+
+typedef struct {
+	IK_Vector2f_t Vector;
+	IK_Color_t Color;
+} IK_ColorVector_t;
+
+typedef struct {
+	uint32_t AnimStartTimeOffset; // (n) millisec after animation start.
+	uint16_t AnimVectorCount;
+	IK_ColorVector_t* AnimVectors;
+} IK_AnimationFrame_t;
+
+typedef struct {
+	uint32_t FrameUpdateDelay; // Milliseconds - Smallest resolution
+	uint16_t FrameCount;
+	IK_AnimationFrame_t* Frames;
+} IK_Animation_t;
+
+typedef struct {
+	uint16_t VectorCount;
+	IK_ColorVector_t* Vectors;
+} IK_AnimationPlane_t;
+
 /* --------------------------------------------------------------
  * FUNCTION DECLARATIONS
  * ------------------------------------------------------------*/
@@ -138,6 +163,9 @@ void IK_Lighting_Init(void);
 void IK_Lighting_Setup(IK_LightingConfig_t cfg);
 
 void IK_Lighting_Update(void);
+
+IK_Color_t IK_Lighting_AnimPlaneGetColAt(IK_Vector2f_t loc);
+void IK_Lighting_AnimPlaneUpdate(void);
 
 
 #endif /* INFINIKEYS_LIGHTING_H_ */
