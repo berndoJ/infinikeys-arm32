@@ -20,6 +20,7 @@
 #include "infinikeys_acq.h"
 #include "infinikeys_parser.h"
 #include "infinikeys_kbcfg.h"
+#include "infinikeys_lighting.h"
 
 /* --------------------------------------------------------------
  * PRIVATE VARIABLE DEFINITIONS

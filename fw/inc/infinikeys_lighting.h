@@ -78,8 +78,8 @@ typedef struct {
 	IK_Bool_t Enabled;
 	IK_LEDChromaticType_t ChromaticType;
 	IK_LightingType_t LightingType;
+	uint16_t LEDID;
 	void* LEDConfig;
-	void (*HALUpdateFunc)(uint8_t status_buffer_len, uint8_t* status_buffer);
 } IK_LED_t;
 
 /*
@@ -133,21 +133,31 @@ typedef struct {
 } IK_ColorVector_t;
 
 typedef struct {
-	uint32_t AnimStartTimeOffset; // (n) millisec after animation start.
-	uint16_t AnimVectorCount;
-	IK_ColorVector_t* AnimVectors;
-} IK_AnimationFrame_t;
+	uint32_t TransitionOffset; // Offset of update cycles until this animation begins. Update cycle is initiated by the host firmware.
+	uint32_t TransitionDuration;
+	uint16_t AnimVectorIndex;
+	IK_Color_t ColorFrom;
+	IK_Color_t ColorTo;
+} IK_AnimationTransition_t;
 
 typedef struct {
-	uint32_t FrameUpdateDelay; // Milliseconds - Smallest resolution
-	uint16_t FrameCount;
-	IK_AnimationFrame_t* Frames;
+	uint16_t TransitionCount;
+	IK_AnimationTransition_t* Transitions;
+	uint16_t AnimVectorCount;
+	IK_Vector2f_t* AnimVectors;
+	uint32_t Duration;
 } IK_Animation_t;
 
 typedef struct {
 	uint16_t VectorCount;
 	IK_ColorVector_t* Vectors;
 } IK_AnimationPlane_t;
+
+
+
+
+extern IK_LightingHandle_t IK_Lighting_Handle;
+
 
 /* --------------------------------------------------------------
  * FUNCTION DECLARATIONS
